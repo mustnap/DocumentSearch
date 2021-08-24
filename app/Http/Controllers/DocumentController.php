@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
+use App\Actions\SaveDocumentAction;
 
 class DocumentController extends Controller
 {
@@ -33,30 +34,14 @@ class DocumentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, SaveDocumentAction $documentAction)
     {
         $validated = $request->validate([
             'document' => 'required|mimes:txt'
         ]);
 
-        $uploadedFile = $request->file('document');
+        $documentAction->execute($request->toArray());
 
-        $file = $uploadedFile->store('documents');
-
-        if(!$request->filename) {
-            $originalFilename = basename($uploadedFile->getClientOriginalName(), '.' . $uploadedFile->getClientOriginalExtension());
-
-        }
-
-        $document = new Document();
-
-        $document->filename = $originalFilename ?? $request->filename;
-        $document->location = $file;
-
-        $document->body = "";
-        $document->user_id = auth()->user()->id;
-
-        $document->save();
 
         return redirect(route('documents.index'));
     }
