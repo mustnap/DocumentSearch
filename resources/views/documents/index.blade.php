@@ -36,19 +36,20 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
+                                    @foreach($documents as $document)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
            
                                                 <div class="ml-4">
                                                     <div class="text-sm font-medium text-gray-900">
-                                                        Document name
+                                                        {{ $document->filename }}
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">User name</div>
+                                            <div class="text-sm text-gray-900">{{ $document->user->name }}</div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <a href="{{ route('documents.create') }}" class="inline-flex items-center px-4 py-2 bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150'])">
@@ -63,10 +64,14 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    @endforeach
 
-                                    <!-- More people... -->
                                 </tbody>
                             </table>
+                            <div class="bg-white px-4 py-3 items-center justify-between">
+                                {{ $documents->links() }}
+
+                            </div>
                         </div>
                     </div>
                 </div>
