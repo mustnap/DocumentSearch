@@ -8,6 +8,8 @@ use App\Actions\SaveDocumentAction;
 
 class DocumentController extends Controller
 {
+
+    private $paginationAmount = 5;
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +18,7 @@ class DocumentController extends Controller
     public function index()
     {
      
-        $documents = Document::with('user')->paginate(4);
+        $documents = Document::with('user')->paginate($this->paginationAmount);
         return view('documents.index',compact('documents'));
     }
 
@@ -92,4 +94,18 @@ class DocumentController extends Controller
     {
         //
     }
+
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Document  $document
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $documents = Document::search($request->term)->paginate($this->paginationAmount);
+        $documents->appends(['term' => $request->term]);
+        return view('documents.index',compact('documents'));
+    }
+
 }
