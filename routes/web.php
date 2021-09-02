@@ -25,6 +25,10 @@ Route::get('/dashboard', function () {
 Route::get('documents/search', [DocumentController::class, 'search'])
         ->name('documents.search')
         ->middleware('auth');
+Route::get('documents/download/{id}', [DocumentController::class, 'download'])
+        ->name('documents.download')
+        ->middleware('auth');
+        
 Route::resource('documents', DocumentController::class)->middleware('auth');
 
 require __DIR__.'/auth.php';

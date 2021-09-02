@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use App\Actions\SaveDocumentAction;
+use Illuminate\Support\Facades\Storage;
+
 
 class DocumentController extends Controller
 {
@@ -92,7 +94,9 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document)
     {
-        //
+        Storage::delete($document->location);
+        $document->delete();
+        return redirect(route('documents.index'));
     }
 
         /**
@@ -106,6 +110,13 @@ class DocumentController extends Controller
         $documents = Document::search($request->term)->paginate($this->paginationAmount);
         $documents->appends(['term' => $request->term]);
         return view('documents.index',compact('documents'));
+    }
+
+    
+    public function download($id) 
+    {
+        $document = Document::findOrFail($id);
+        return Storage::download($document->location, $document->filename);
     }
 
 }
