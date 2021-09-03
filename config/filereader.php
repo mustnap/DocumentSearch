@@ -2,6 +2,7 @@
 
 
 return [
-    'text/plain' => App\Services\TextFileReader::class
+    'text/plain' => App\Services\TextFileReader::class,
+    'application/pdf' => App\Services\PdfFileReader::class
 ];
 

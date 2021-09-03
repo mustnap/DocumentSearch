@@ -51,7 +51,7 @@
 
                                                 </div>
                                                 <p class="text-xs text-gray-500">
-                                                    .txt
+                                                    .txt, .pdf
                                                 </p>
                                             </div>
                                         </div>
