@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Document;
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Gate::define('delete-document',function(User $user, Document $document){
+            return $user->id === $document->user_id;
+        });
     }
 }
